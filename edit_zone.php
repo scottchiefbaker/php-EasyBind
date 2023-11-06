@@ -78,7 +78,7 @@ function handle_action($action, $rec_type, $rec_num) {
 	} elseif ($action === "delete_rec" && $rec_type && $rec_num) {
 		//k("Doing delete");
 		$new_obj = $eb->delete_record($dom_info, $rec_type, $rec_num);
-	} elseif ($action === "add_record" && $new_key) {
+	} elseif ($action === "add_record") {
 		//k("Doing add");
 		$new_obj = $eb->add_record($dom_info, $rec_type, $new_key, $new_val);
 	} elseif ($action === "publish") {
