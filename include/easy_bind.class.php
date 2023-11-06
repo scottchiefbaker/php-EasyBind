@@ -12,8 +12,22 @@ class easy_bind {
 	var $scratch_dir = "/var/tmp/easy_bind/";
 	var $version     = "0.1.0";
 
+	var $bind_config_files    = [];
+	var $rndc_key             = '';
+	var $rndc_path            = '';
+	var $named_checkzone_path = '';
+
 	function __construct() {
 		$this->sluz = new sluz();
+
+		$ini_file = __DIR__ . "/../easy_bind.ini";
+		$x        = parse_ini_file($ini_file);
+
+		$str                        = $x['bind_config_files']    ?? "";
+		$this->rndc_key             = $x['rndc_key_file']        ?? "";
+		$this->rndc_path            = $x['rndc_path']            ?? "/usr/sbin/rndc";
+		$this->named_checkzone_path = $x['named_checkzone_path'] ?? "/usr/bin/named-checkzone";
+		$this->bind_config_files    = preg_split("/,\s*/",$str);
 
 		if (!is_dir($this->scratch_dir)) {
 			$this->error_out("Scratch directory <code>{$this->scratch_dir}</code> missing", 19405);
@@ -29,7 +43,7 @@ class easy_bind {
 
 		foreach ($files as $file) {
 			if (!is_readable($file)) {
-				$this->error_out("Unable to read '$file'");
+				$this->error_out("Unable to read '$file'", 95953);
 			}
 
 			$str .= file_get_contents($file);
@@ -325,12 +339,27 @@ class easy_bind {
 		return $max;
 	}
 
+	function get_zone_info($zone_name) {
+		$cfgs = $this->bind_config_files;
+		$x    = $this->parse_named_conf($cfgs);
+
+		$ret = $x['zone'][$zone_name] ?? [];
+
+		return $ret;
+	}
+
+	function get_all_zones() {
+		$cfgs = $this->bind_config_files;
+		$ret  = $this->parse_named_conf($cfgs);
+
+		return $ret;
+	}
+
 	function publish_zone($zone_name) {
 		$scratch_file = $this->get_scratch_zone_name($zone_name);
 
-		$file1 = "/home/bakers/html/tmp/easy_bind/etc/named.conf";
-		$file2 = "/home/bakers/html/tmp/easy_bind/etc/named-zones.conf";
-		$x     = $this->parse_named_conf([$file1, $file2]);
+		$cfgs  = $this->bind_config_files;
+		$x     = $this->parse_named_conf($cfgs);
 
 		$info = $x['zone'][$zone_name] ?? [];
 
@@ -340,6 +369,12 @@ class easy_bind {
 
 		$real_file = $info['file'] ?? '';
 		$ret       = 0;
+
+		$ok = $this->verify_zone_file($zone_name, $scratch_file, $err_str);
+
+		if (!$ok) {
+			$this->error_out("<p>Error publishing zone</p><p><pre>$err_str</pre></p>", 49294);
+		}
 
 		if ($real_file && $scratch_file) {
 			if (!is_writable($real_file)) {
@@ -357,6 +392,13 @@ class easy_bind {
 			$ret = 1;
 		} else {
 			$this->error_out("Missing data", 94524);
+		}
+
+		$ok = $this->reload_zone($zone_name, $err_str);
+
+		if (!$ok) {
+			$this->error_out("<p>Error reloading zone</p><p><pre>$err_str</pre></p>", 47510);
+			$ret = false;
 		}
 
 		return $ret;
@@ -383,6 +425,18 @@ class easy_bind {
 		$this->sluz->assign('err_msg', $msg);
 		print $this->sluz->fetch("tpls/error_out.stpl");
 		exit(7);
+	}
+
+	function reload_zone($zone_name, $err_str = "") {
+		$cmd = "/usr/sbin/rndc reload $zone_name";
+		exec($cmd, $out, $exit);
+
+		$err_str = $out;
+
+		// Unix: Zero = good, Non-zero = bad
+		$ret = !$exit;
+
+		return $ret;
 	}
 
 	// Pass in an err_str with your data to return any potential errors

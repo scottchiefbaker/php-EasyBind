@@ -11,11 +11,7 @@ $rec_type = $_GET['type']    ?? "";
 
 ////////////////////////////////////////////////////////
 
-$file1 = "/home/bakers/html/tmp/easy_bind/etc/named.conf";
-$file2 = "/home/bakers/html/tmp/easy_bind/etc/named-zones.conf";
-$x     = $eb->parse_named_conf([$file1, $file2]);
-
-$info = $x['zone'][$domain] ?? [];
+$info = $eb->get_zone_info($domain);
 
 if (!$info) {
 	$eb->error_out("Could not find zone file for $domain", 95242);
@@ -87,7 +83,14 @@ function handle_action($action, $rec_type, $rec_num) {
 		$new_obj = $eb->add_record($dom_info, $rec_type, $new_key, $new_val);
 	} elseif ($action === "publish") {
 		$ok = $eb->publish_zone($domain);
-		kd($ok);
+
+		if (!$ok) {
+			$eb->error_out("Unable to publish zone file", 57294);
+		} else {
+			$ok = unlink($scratch_file);
+			header("Location: ?domain=$domain");
+			exit(7);
+		}
 	} elseif ($action === "discard") {
 		$scratch_file = $eb->get_scratch_zone_name($domain);
 		$ok           = unlink($scratch_file);
