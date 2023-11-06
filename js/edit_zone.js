@@ -18,5 +18,11 @@ $(document).ready(function() {
 		$("._form_button").html("Update");
 		$("._form_action").val("update_record");
 		$("._form_record_num").val(rec_num);
+
+		if (key) {
+			$("._form_key").focus();
+		} else if (val) {
+			$("._form_value").focus();
+		}
 	});
 });
