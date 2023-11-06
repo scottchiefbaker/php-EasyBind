@@ -21,8 +21,11 @@ class easy_bind {
 		$this->sluz = new sluz();
 
 		$ini_file = __DIR__ . "/../easy_bind.ini";
-		$x        = parse_ini_file($ini_file);
+		if (!is_readable($ini_file)) {
+			$this->error_out("Unable to read <code>easy_bind.ini</code>", 42040);
+		}
 
+		$x                          = parse_ini_file($ini_file);
 		$str                        = $x['bind_config_files']    ?? "";
 		$this->rndc_key             = $x['rndc_key_file']        ?? "";
 		$this->rndc_path            = $x['rndc_path']            ?? "/usr/sbin/rndc";
