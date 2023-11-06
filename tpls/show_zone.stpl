@@ -6,7 +6,7 @@
 		<title>Zone file for {$domain} {if $scratch_file}(pending){/if}</title>
 		<link href="css/bootstrap5.min.css" rel="stylesheet">
 	</head>
-	<body class="m-3">
+	<body class="container-lg">
 		<h3 class="mb-2 fw-bold d-flex" title="File: {$zone_file}">
 			<div class="flex-fill">
 				Zone file for {$domain} {if $scratch_file}(in progress){/if}

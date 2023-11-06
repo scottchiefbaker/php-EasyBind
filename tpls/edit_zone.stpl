@@ -10,7 +10,7 @@
 		<title>Edit Domain {$domain}</title>
 		<link href="css/bootstrap5.min.css" rel="stylesheet">
 	</head>
-	<body class="container">
+	<body class="container-lg">
 		<h3 class="mb-3 d-flex">
 			<div class="me-3">
 				<a href="index.php" title="Back to zone list">

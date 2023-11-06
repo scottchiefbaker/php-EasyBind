@@ -6,7 +6,7 @@
 		<title>EasyBind Error</title>
 		<link href="css/bootstrap5.min.css" rel="stylesheet">
 	</head>
-	<body class="container">
+	<body class="container-lg">
 		<h1>Error #{$err_num}</h1>
 
 		<div class="alert alert-danger">{$err_msg}</div>
