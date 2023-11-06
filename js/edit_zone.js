@@ -7,6 +7,9 @@ $(document).ready(function() {
 		var key      = $(this).data('rec_key');
 		var val      = $(this).data('rec_val');
 
+		key = atob(key);
+		val = atob(val);
+
 		console.log("%s %s %s %s", rec_num, rec_type, key, val);
 
 		$("._form_key").val(key);
