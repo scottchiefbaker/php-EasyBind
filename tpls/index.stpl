@@ -7,13 +7,13 @@
 		<link href="css/bootstrap5.min.css" rel="stylesheet">
 	</head>
 	<body class="container">
-		<h1>Zones</h1>
+		<h3>EasyBind Zones</h3>
 
+		<ol>
 		{foreach $zones as $x}
-		<div class="">
-			Zone: <a href="edit_zone.php?domain={$x.name}">{$x.name}</a>
-		</div>
+			<li><a href="edit_zone.php?domain={$x.name}">{$x.name}</a></li>
 		{/foreach}
+		</ol>
 	</body>
 </html>
 
