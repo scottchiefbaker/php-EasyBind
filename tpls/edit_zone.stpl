@@ -44,6 +44,34 @@
 		</div>
 		{/if}
 
+		<form class="d-flex mt-3 mb-3 update_form d-none">
+			<select name="type" class="form-select form-select-sm me-2 _form_type" style="width: 7em;" onchange="check_type_edit_record()" id="up_type">
+				<option value="A" selected>A</option>
+				<option value="AAAA" >AAAA</option>
+				<option value="CNAME" >CNAME</option>
+				<option value="MX" >MX</option>
+				<option value="NS" >NS</option>
+				<option value="PTR" >PTR</option>
+				<option value="SRV" >SRV</option>
+				<option value="TXT" >TXT</option>
+			</select>
+
+			<input class="form-control form-control-sm me-2 _form_key" type="text" placeholder="www" id="up_key" name="key">
+
+			<div class="me-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+				</svg>
+			</div>
+
+			<input class="form-control form-control-sm me-2 _form_value" id="up_value" type="text" placeholder="1.2.3.4" name="value" />
+			<input class="_form_action" type="hidden" name="action" value="update_record" />
+			<input class="_form_record_num" id="up_rec_num" type="hidden" name="rec_num" value="0" />
+			<input type="hidden" name="domain" value="{$domain}" />
+
+			<button class="btn btn-sm btn-primary _form_button" style="width: 16em;" type="submit">Update</button>
+		</form>
+
 		{foreach $records as $type => $data}
 			<h5 class="bg-secondary p-1 mb-0 rounded text-white">{$type} records</h5>
 			<div class="mb-2">

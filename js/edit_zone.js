@@ -2,6 +2,10 @@ $(document).ready(function() {
 	$("._edit_record").on("click", function(event) {
 		event.preventDefault();
 
+		var par = $(this).parent();
+		// Find the update form, put it after this element, and show it
+		$(".update_form").insertAfter(par).removeClass('d-none');
+
 		var rec_num  = $(this).data('rec_num');
 		var rec_type = $(this).data('rec_type');
 		var key      = $(this).data('rec_key');
@@ -12,17 +16,15 @@ $(document).ready(function() {
 
 		console.log("%s %s %s %s", rec_num, rec_type, key, val);
 
-		$("._form_key").val(key);
-		$("._form_value").val(val);
-		$("._form_type").val(rec_type);
-		$("._form_button").html("Update");
-		$("._form_action").val("update_record");
-		$("._form_record_num").val(rec_num);
+		$("#up_key").val(key);
+		$("#up_value").val(val);
+		$("#up_rec_num").val(rec_num);
+		$("#up_type").val(rec_type);
 
 		if (key) {
-			$("._form_key").focus();
+			$("#up_key").focus();
 		} else if (val) {
-			$("._form_value").focus();
+			$("#up_value").focus();
 		}
 	});
 });
