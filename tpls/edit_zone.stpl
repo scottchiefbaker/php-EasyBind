@@ -39,7 +39,7 @@
 			</div>
 			<div class="text-end">
 				<a class="btn btn-sm btn-success" href="?domain={$domain}&amp;action=publish">Publish</a>
-				<a class="btn btn-sm btn-danger" href="?domain={$domain}&amp;action=discard" onclick="return confirm('Confirm discard all zone updates?');">Discard</a>
+				<a class="btn btn-sm btn-danger" href="?domain={$domain}&amp;action=discard" onclick="return confirm('Discard all record updates?');">Discard</a>
 			</div>
 		</div>
 		{/if}
@@ -87,7 +87,7 @@
 						</div>
 					</a>
 
-					<a href="edit_zone.php?domain={$domain}&amp;action=delete_rec&amp;type={$type}&amp;rec_num={$idx}" class="text-danger" title="Remove record" onclick="return confirm('Confirm delete');">
+					<a href="edit_zone.php?domain={$domain}&amp;action=delete_rec&amp;type={$type}&amp;rec_num={$idx}" class="text-danger" title="Remove record" onclick="return confirm('Delete record?');">
 						<div class="me-3">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 								<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
