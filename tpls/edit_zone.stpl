@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/edit_zone.js"></script>
+
+		<title>Edit domain</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	</head>
+	<body class="container">
+		<h1 class="mb-3 d-flex">
+			<div class="flex-fill">
+				Edit zone {$domain} <a href="?domain={$domain}&amp;action=view_zonefile" title="View zone file">
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+						<path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+						<path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+					</svg>
+				</a>
+			</div>
+			<div class="">
+				<a href="index.php">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+					<path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+				</svg>
+				</a>
+			</div>
+		</h1>
+
+		{if $scratch_file}
+		<div class="alert alert-success p-2 d-flex">
+			<div class="flex-fill">
+				Domain modification in progress
+			</div>
+			<div class="text-end">
+				<a class="btn btn-sm btn-success" href="?domain={$domain}&amp;action=publish">Publish</a>
+				<a class="btn btn-sm btn-danger" href="?domain={$domain}&amp;action=discard" onclick="return confirm('Confirm discard all zone updates?');">Discard</a>
+			</div>
+		</div>
+		{/if}
+
+		{foreach $records as $type => $data}
+			<h5 class="bg-secondary p-1 mb-0 rounded text-white">{$type} records</h5>
+			<div class="mb-2">
+			{foreach $data as $key => $x}
+				{foreach $x as $idx => $val}
+				<div class="d-flex">
+					<a href="edit_zone.php?domain={$domain}" class="_edit_record" data-rec_num="{$idx}" data-rec_type="{$type}" data-rec_key="{$key}" data-rec_val="{$val}">
+						<div class="me-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+								<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+								<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+							</svg>
+						</div>
+					</a>
+
+					<a href="edit_zone.php?domain={$domain}&amp;action=delete_rec&amp;type={$type}&amp;rec_num={$idx}" onclick="return confirm('Confirm delete');">
+						<div class="me-3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+								<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+								<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+							</svg>
+						</div>
+					</a>
+
+
+					<div class="zbg-light" style="width: 25em;">
+						{$key}
+					</div>
+					<div class="zbg-secondary" style="width: 10em;">
+						{$type}
+					</div>
+					<div class="w-100 zbg-warning">
+						{$val}
+					</div>
+				</div>
+				{/foreach}
+			{/foreach}
+				</div>
+		{/foreach}
+
+		<form class="d-flex mt-3 mb-3">
+
+			<select name="type" class="form-select form-select-sm me-2 _form_type" style="width: 7em;" onchange="check_type_edit_record()" id="type">
+				<option value="A" selected>A</option>
+				<option value="AAAA" >AAAA</option>
+				<option value="CNAME" >CNAME</option>
+				<option value="MX" >MX</option>
+				<option value="NS" >NS</option>
+				<option value="PTR" >PTR</option>
+				<option value="SRV" >SRV</option>
+				<option value="TXT" >TXT</option>
+			</select>
+
+			<input class="form-control form-control-sm me-2 _form_key" type="text" placeholder="www" name="key">
+
+			<div class="me-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+				</svg>
+			</div>
+
+			<input class="form-control form-control-sm me-2 _form_value" type="text" placeholder="1.2.3.4" name="value" />
+			<input class="_form_action" type="hidden" name="action" value="add_record" />
+			<input class="_form_record_num" type="hidden" name="rec_num" value="0" />
+			<input type="hidden" name="domain" value="{$domain}" />
+
+			<button class="btn btn-sm btn-primary _form_button" style="width: 16em;" type="submit">Add record</button>
+		</form>
+	</body>
+</html>
