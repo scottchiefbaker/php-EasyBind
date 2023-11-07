@@ -17,9 +17,7 @@
 			<div class="flex-fill">
 				Pending changes for {$domain}
 			</div>
-			{/if}
-
-			{if !$is_diff}
+			{else}
 			<div class="flex-fill">
 				Zone file for {$domain} {if $scratch_file}(in progress){/if}
 			</div>
