@@ -84,6 +84,17 @@ function handle_action($action, $rec_type, $rec_num) {
 	} elseif ($action === "add_record") {
 		//k("Doing add");
 		$new_obj = $eb->add_record($dom_info, $rec_type, $new_key, $new_val);
+	} elseif ($action === "view_diff") {
+		$info = $eb->get_zone_info($domain);
+		$diff = $eb->get_diff($domain);
+
+		$eb->sluz->assign("zone_file_content", $diff);
+
+		$eb->sluz->assign("domain", $domain);
+		$eb->sluz->assign("is_diff", true);
+
+		print $eb->sluz->fetch("tpls/show_zone.stpl");
+		exit;
 	} elseif ($action === "publish") {
 		$ok = $eb->publish_zone($domain);
 

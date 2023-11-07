@@ -38,8 +38,9 @@
 				Domain modification in progress
 			</div>
 			<div class="text-end">
-				<a class="btn btn-sm btn-success" href="?domain={$domain}&amp;action=publish">Publish</a>
-				<a class="btn btn-sm btn-danger" href="?domain={$domain}&amp;action=discard" onclick="return confirm('Discard all record updates?');">Discard</a>
+				<a class="btn btn-sm btn-success" style="width: 7em" href="?domain={$domain}&amp;action=publish">Publish</a>
+				<a class="btn btn-sm btn-primary" style="width: 7em" href="?domain={$domain}&amp;action=view_diff">View Diff</a>
+				<a class="btn btn-sm btn-danger" style="width: 7em" href="?domain={$domain}&amp;action=discard" onclick="return confirm('Discard all record updates?');">Discard</a>
 			</div>
 		</div>
 		{/if}

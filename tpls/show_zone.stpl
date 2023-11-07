@@ -5,12 +5,25 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Zone file for {$domain} {if $scratch_file}(pending){/if}</title>
 		<link href="css/bootstrap5.min.css" rel="stylesheet">
+
+<style>
+	.line_add { background: #99c899; display: inline-block; }
+	.line_delete { background: #fbaaaa; display: inline-block; }
+</style>
 	</head>
 	<body class="container-lg">
 		<h3 class="mb-2 fw-bold d-flex" title="File: {$zone_file}">
+			{if $is_diff}
+			<div class="flex-fill">
+				Pending changes for {$domain}
+			</div>
+			{/if}
+
+			{if !$is_diff}
 			<div class="flex-fill">
 				Zone file for {$domain} {if $scratch_file}(in progress){/if}
 			</div>
+			{/if}
 		</h3>
 
 		<pre class="bg-light p-1 border">{$zone_file_content}</pre>
