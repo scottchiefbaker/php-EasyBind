@@ -474,6 +474,32 @@ class easy_bind {
 		return $file_name;
 	}
 
+	function get_diff($zone_name, $html = 1) {
+		$info = $this->get_zone_info($zone_name);
+
+		$scratch = $info['scratch_file'];
+		$live    = $info['file'];
+
+		$cmd = "/usr/bin/diff -u '$live' '$scratch'";
+		exec($cmd, $out, $exit);
+
+		if ($html) {
+			foreach ($out as &$line) {
+				if (str_starts_with($line, "+")) {
+					$line = "<div class=\"line_add\">$line</div>";
+				} elseif (str_starts_with($line, "-")) {
+					$line = "<div class=\"line_delete\">$line</div>";
+				} else {
+					$line = "<div class=\"d-inline-block\">$line</div>";
+				}
+			}
+		}
+
+		$ret = join("\n", $out);
+
+		return $ret;
+	}
+
 }
 
 ////////////////////////////////////////////////////////////////////
