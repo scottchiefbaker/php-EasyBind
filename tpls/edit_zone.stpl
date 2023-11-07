@@ -113,7 +113,8 @@
 				</div>
 		{/foreach}
 
-		<form class="d-flex mt-3 mb-3">
+		<hr / class="mt-4">
+		<form class="d-flex mt-4 mb-3">
 
 			<select name="type" class="form-select form-select-sm me-2 _form_type" style="width: 7em;" onchange="check_type_edit_record()" id="type">
 				<option value="A" selected>A</option>
