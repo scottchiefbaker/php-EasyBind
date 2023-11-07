@@ -11,8 +11,11 @@ $rec_type = $_GET['type']    ?? "";
 
 ////////////////////////////////////////////////////////
 
-$info = $eb->get_zone_info($domain);
+if (!$domain) {
+	$eb->error_out("Domain not specified", 48289);
+}
 
+$info = $eb->get_zone_info($domain);
 if (!$info) {
 	$eb->error_out("Could not find zone file for $domain", 95242);
 }
