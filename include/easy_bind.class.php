@@ -497,7 +497,7 @@ class easy_bind {
 		$scratch = $info['scratch_file'];
 		$live    = $info['file'];
 
-		$cmd = "/usr/bin/diff -u '$live' '$scratch'";
+		$cmd = "/usr/bin/diff -wu '$live' '$scratch'";
 		exec($cmd, $out, $exit);
 
 		if ($html) {
