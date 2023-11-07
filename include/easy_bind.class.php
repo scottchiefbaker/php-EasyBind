@@ -9,7 +9,7 @@ $s = new sluz();
 
 class easy_bind {
 	var $sluz;
-	var $scratch_dir = "/var/tmp/easy_bind/";
+	var $scratch_dir = "";
 	var $version     = "0.1.0";
 
 	var $bind_config_files    = [];
@@ -30,7 +30,12 @@ class easy_bind {
 		$this->rndc_key             = $x['rndc_key_file']        ?? "";
 		$this->rndc_path            = $x['rndc_path']            ?? "/usr/sbin/rndc";
 		$this->named_checkzone_path = $x['named_checkzone_path'] ?? "/usr/bin/named-checkzone";
+		$this->scratch_dir          = $x['scratch_dir']          ?? "/var/tmp/easy_bind/";
 		$this->bind_config_files    = preg_split("/,\s*/",$str);
+
+		if (!str_ends_with($this->scratch_dir, '/')) {
+			$this->scratch_dir .= '/';
+		}
 
 		if (!is_dir($this->scratch_dir)) {
 			$this->error_out("Scratch directory <code>{$this->scratch_dir}</code> missing", 19405);
@@ -347,6 +352,18 @@ class easy_bind {
 		$x    = $this->parse_named_conf($cfgs);
 
 		$ret = $x['zone'][$zone_name] ?? [];
+
+		// Don't bother adding anything else if we can't find the domain
+		if (!$ret) {
+			return $ret;
+		}
+
+		$file_name = $this->get_scratch_zone_name($zone_name);
+		if (is_readable($file_name)) {
+			$ret['scratch_file'] = $file_name;
+		} else {
+			$ret['scratch_file'] = false;
+		}
 
 		return $ret;
 	}
