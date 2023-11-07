@@ -45,7 +45,7 @@
 		</div>
 		{/if}
 
-		<form class="d-flex mt-3 mb-3 update_form d-none">
+		<form class="d-flex mt-3 mb-3 border rounded update_form d-none" style="background: #e8ffe8; padding: 12px;">
 			<select name="type" class="form-select form-select-sm me-2 _form_type" style="width: 7em;" onchange="check_type_edit_record()" id="up_type">
 				<option value="A" selected>A</option>
 				<option value="AAAA" >AAAA</option>
