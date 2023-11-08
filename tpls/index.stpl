@@ -25,6 +25,7 @@
 			<li class="zone_item"><a class="" href="edit_zone.php?domain={$x.name}">{$x.name}</a></li>
 		{/foreach}
 		</ol>
+
+		<a href="{$logout_url}">Logout</a>
 	</body>
 </html>
-

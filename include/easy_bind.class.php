@@ -16,6 +16,7 @@ class easy_bind {
 	var $rndc_key             = '';
 	var $rndc_path            = '';
 	var $named_checkzone_path = '';
+	var $ini_file             = '';
 
 	function __construct() {
 		$this->sluz = new sluz();
@@ -32,6 +33,9 @@ class easy_bind {
 		$this->named_checkzone_path = $x['named_checkzone_path'] ?? "/usr/bin/named-checkzone";
 		$this->scratch_dir          = $x['scratch_dir']          ?? "/var/tmp/easy_bind/";
 		$this->bind_config_files    = preg_split("/,\s*/",$str);
+		$this->ini_file             = $ini_file;
+
+		$ok = $this->check_user();
 
 		if (!str_ends_with($this->scratch_dir, '/')) {
 			$this->scratch_dir .= '/';
@@ -44,6 +48,54 @@ class easy_bind {
 		if (!is_writeable($this->scratch_dir)) {
 			$this->error_out("Scratch directory <code>{$this->scratch_dir}</code> not writable", 89034);
 		}
+	}
+
+	function check_user() {
+		$raw   = parse_ini_file($this->ini_file, true);
+		$users = $raw['users'] ?? [];
+
+		if (!isset($_SERVER['PHP_AUTH_USER'])) {
+			$this->send_login_header();
+		} else {
+			// These are the ones passed in from the browser
+			$php_user = $_SERVER['PHP_AUTH_USER'] ?? "";
+			$php_pass = $_SERVER['PHP_AUTH_PW']   ?? "";
+
+			// This is the hashed pwd from the INI file
+			$ini_pwd = $users[$php_user] ?? "";
+
+			// User not found in INI file
+			if (!$ini_pwd) {
+				$this->send_login_header();
+			}
+
+			// Password does not match INI file
+			$ok = password_verify($php_pass, $ini_pwd);
+			if (!$ok) {
+				$this->send_login_header();
+			}
+
+			return $php_user;
+		}
+	}
+
+	function logout_url() {
+		$scheme = $_SERVER['REQUEST_SCHEME'] ?? "";
+		$domain = $_SERVER['HTTP_HOST']      ?? "";
+		$uri    = $_SERVER['REQUEST_URI']    ?? "";
+
+		$url = "//log:out@" . $domain . $uri;
+
+		return $url;
+	}
+
+	function send_login_header() {
+		$realm = "EasyBind";
+
+		header("WWW-Authenticate: Basic realm=\"$realm\"");
+		header('HTTP/1.0 401 Unauthorized');
+		echo 'Cancelled by user';
+		exit;
 	}
 
 	function parse_named_conf(array $files) {

@@ -22,6 +22,7 @@ $zones = $info['zone'] ?? "";
 ksort($zones);
 
 $eb->sluz->assign('zones', $zones);
+$eb->sluz->assign('logout_url', $eb->logout_url());
 
 if (!empty($_GET['debug'])) { k($eb->sluz->tpl_vars); }
 print $eb->sluz->fetch("tpls/index.stpl");
