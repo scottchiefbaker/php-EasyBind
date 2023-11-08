@@ -22,7 +22,7 @@
 
 		<ol>
 		{foreach $zones as $x}
-			<li class="zone_item"><a class="" href="edit_zone.php?domain={$x.name}">{$x.name}</a></li>
+			<li class="zone_item mb-1"><a class="" href="edit_zone.php?domain={$x.name}">{$x.name}</a></li>
 		{/foreach}
 		</ol>
 

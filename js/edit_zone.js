@@ -1,10 +1,16 @@
 $(document).ready(function() {
+	init_edit();
+});
+
+function init_edit() {
+	console.log("Init edit");
+
 	$("._edit_record").on("click", function(event) {
 		event.preventDefault();
 
-		var par = $(this).parent();
+		var elem = $(this).parent().parent();
 		// Find the update form, put it after this element, and show it
-		$(".update_form").insertAfter(par).removeClass('d-none');
+		$(".update_form").insertAfter(elem).removeClass('d-none');
 
 		var rec_num  = $(this).data('rec_num');
 		var rec_type = $(this).data('rec_type');
@@ -27,4 +33,4 @@ $(document).ready(function() {
 			$("#up_value").focus();
 		}
 	});
-});
+}
