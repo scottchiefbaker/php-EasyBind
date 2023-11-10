@@ -8,7 +8,7 @@ function init_edit() {
 	$("._edit_record").on("click", function(event) {
 		event.preventDefault();
 
-		var elem = $(this).parent().parent();
+		var elem = $(this).closest('.record_wrapper');
 		// Find the update form, put it after this element, and show it
 		$(".update_form").insertAfter(elem).removeClass('d-none');
 

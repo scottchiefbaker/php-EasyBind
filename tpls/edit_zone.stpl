@@ -78,7 +78,7 @@
 			<div class="mb-2">
 			{foreach $data as $key => $x}
 				{foreach $x as $idx => $val}
-				<div class="d-flex mb-2">
+				<div class="d-flex mb-2 record_wrapper">
 					<div class="me-2">
 						<a class="btn btn-sm btn-primary _edit_record" href="edit_zone.php?domain={$domain}" class="_edit_record" title="Edit record" data-rec_num="{$idx}" data-rec_type="{$type}" data-rec_key="{$key|base64_encode}" data-rec_val="{$val|base64_encode}">
 							<div class="me">
