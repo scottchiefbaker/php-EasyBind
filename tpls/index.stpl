@@ -13,7 +13,7 @@
 	<body class="container-lg">
 		<h3 class="d-flex mt-2">
 			<div class="flex-fill">
-				EasyBind Zones
+				EasyBind v{$version}
 			</div>
 			<div class="d-none d-md-block w-50">
 				<input class="form-control _filter" type="text" placeholder="Filter">
