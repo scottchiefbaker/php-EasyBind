@@ -142,8 +142,8 @@ class easy_bind {
 				$val = $ret['dir'] . '/' . $val;
 			}
 
-			// Skip arpa and . (for now)
-			if (preg_match("/.arpa|^\.$/", $key)) {
+			// Skip .
+			if ($key === '.') {
 				continue;
 			}
 
