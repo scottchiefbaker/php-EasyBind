@@ -17,6 +17,7 @@ class easy_bind {
 	var $rndc_path            = '';
 	var $named_checkzone_path = '';
 	var $ini_file             = '';
+	var $zone_filter          = '';
 
 	function __construct() {
 		$this->sluz = new sluz();
@@ -32,6 +33,7 @@ class easy_bind {
 		$this->rndc_path            = $x['rndc_path']            ?? "/usr/sbin/rndc";
 		$this->named_checkzone_path = $x['named_checkzone_path'] ?? "/usr/bin/named-checkzone";
 		$this->scratch_dir          = $x['scratch_dir']          ?? "/var/tmp/easy_bind/";
+		$this->zone_filter          = $x['zone_filter']          ?? "";
 		$this->bind_config_files    = preg_split("/,\s*/",$str);
 		$this->ini_file             = $ini_file;
 
@@ -144,6 +146,10 @@ class easy_bind {
 
 			// Skip .
 			if ($key === '.') {
+				continue;
+			}
+
+			if ($this->zone_filter && preg_match("/" . $this->zone_filter . "/", $key)) {
 				continue;
 			}
 
