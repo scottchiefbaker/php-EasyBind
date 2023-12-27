@@ -126,7 +126,7 @@ class easy_bind {
 		// directory "/var/named";
 		$ret['dir'] = '';
 
-		if (preg_match("/directory \"(.+?)\";/", $str, $m)) {
+		if (preg_match("/\sdirectory\s+\"(.+?)\";/", $str, $m)) {
 			$ret['dir'] = $m[1];
 		}
 
@@ -165,6 +165,10 @@ class easy_bind {
 
 	// Parse a zone file in to hash
 	function parse_zone_file($file) {
+		if (!is_readable($file)) {
+			$this->error_out("Unable to read <code>$file</code>", 10135);
+		}
+
 		$lines = file($file);
 
 		// We do this first clean up to get rid of the comments
