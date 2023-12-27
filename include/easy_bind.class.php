@@ -112,8 +112,12 @@ class easy_bind {
 		$str = '';
 
 		foreach ($files as $file) {
+			if (!file_exists($file)) {
+				$this->error_out("Config file <code>$file</code> does not exist", 95980);
+			}
+
 			if (!is_readable($file)) {
-				$this->error_out("Unable to read '$file'", 95953);
+				$this->error_out("Unable to read <code>$file</code>", 95953);
 			}
 
 			$str .= file_get_contents($file);
@@ -126,7 +130,9 @@ class easy_bind {
 			$ret['dir'] = $m[1];
 		}
 
-		$x = preg_match_all("/zone \"(.+?)\".+?file \"(.+?)\"/sm", $str, $m);
+		$x          = preg_match_all("/zone \"(.+?)\".+?file \"(.+?)\"/sm", $str, $m);
+		$zone_count = 0;
+
 		for ($i = 0; $i < $x; $i++) {
 			$key = $m[1][$i];
 			$val = $m[2][$i];
@@ -143,6 +149,15 @@ class easy_bind {
 
 			$ret['zone'][$key]['file'] = $val;
 			$ret['zone'][$key]['name'] = $key;
+
+			$zone_count++;
+		}
+
+		if ($zone_count == 0) {
+			$ret['zone'] = [];
+			$msg = "<b>Warning</b>: no zones found in config files";
+
+			$this->sluz->assign('warning_msg', $msg);
 		}
 
 		return $ret;

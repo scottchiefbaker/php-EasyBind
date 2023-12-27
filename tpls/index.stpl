@@ -11,6 +11,12 @@
 
 	</head>
 	<body class="container-lg">
+		{if $warning_msg}
+		<div class="alert alert-warning mt-3">
+			{$warning_msg}
+		</div>
+		{/if}
+
 		<h3 class="d-flex mt-2">
 			<div class="flex-fill">
 				EasyBind v{$version}
