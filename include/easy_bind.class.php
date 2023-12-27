@@ -41,12 +41,22 @@ class easy_bind {
 			$this->scratch_dir .= '/';
 		}
 
+		// Make sure dirs are in the correct place and writeable
+		$this->startup_checks();
+	}
+
+	function startup_checks() {
+		// If the scratch dir is not there attempt to create it real quick
 		if (!is_dir($this->scratch_dir)) {
-			$this->error_out("Scratch directory <code>{$this->scratch_dir}</code> missing", 19405);
+			mkdir($this->scratch_dir, 0744);
+		}
+
+		if (!is_dir($this->scratch_dir)) {
+			$this->error_out("<p>Scratch directory <code>{$this->scratch_dir}</code> missing</p>Command Fix: <code>mkdir {$this->scratch_dir}</code>", 19405);
 		}
 
 		if (!is_writeable($this->scratch_dir)) {
-			$this->error_out("Scratch directory <code>{$this->scratch_dir}</code> not writable", 89034);
+			$this->error_out("<p>Scratch directory <code>{$this->scratch_dir}</code> not writable</p>Command Fix: <code>chmod apache {$this->scratch_dir}</code>", 89034);
 		}
 	}
 
