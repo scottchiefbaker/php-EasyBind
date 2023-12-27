@@ -232,11 +232,18 @@ class easy_bind {
 			// If it has IN/MX it's a valid entry
 			if (preg_match("/\sIN\s|\sMX\s/", $l)) {
 				$parts = preg_split("/\s+/", $l, 5);
+				$is_mx = preg_match("/\sIN\s+MX\s/", $l);
 
 				if (count($parts) == 5) {
 					$key  = $parts[0] ?? "";
 					$type = $parts[3] ?? "";
 					$val  = $parts[4] ?? "";
+
+					if ($is_mx) {
+						$key  = $parts[3] ?? "";
+						$type = $parts[2] ?? "";
+						$val  = $parts[4] ?? "";
+					}
 				} elseif (count($parts) == 4) {
 					$key  = $parts[0] ?? "";
 					$type = $parts[2] ?? "";
@@ -245,16 +252,7 @@ class easy_bind {
 
 				$type = strtoupper($type);
 
-				// MX Records have an additional field
-				if ($type === 'MX') {
-					$p   = qw($val);
-					$num = $p[0] ?? 0;
-					$val = $p[1] ?? '';
-
-					$ret['records'][$type][$num][$count] = $val;
-				} else {
-					$ret['records'][$type][$key][$count] = $val;
-				}
+				$ret['records'][$type][$key][$count] = $val;
 
 				$count++;
 			// These are NON entry lines
