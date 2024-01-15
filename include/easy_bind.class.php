@@ -270,6 +270,11 @@ class easy_bind {
 			$line_count++;
 		}
 
+		$ret['symlink'] = "";
+		if (is_link($file)) {
+			$ret['symlink'] = realpath($file);
+		}
+
 		return $ret;
 	}
 
