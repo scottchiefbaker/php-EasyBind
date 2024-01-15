@@ -189,7 +189,7 @@ class easy_bind {
 		$full = join("\n", $lines);
 
 		// TTL is after the literal '$TTL'
-		$ret['ttl'] = $this->get_text("^\\\$TTL (\d+)", $full);
+		$ret['ttl'] = $this->get_text("^\\\$TTL (\d+)", $full, 7200);
 
 		// Header part is the first section between parens
 		$head = $this->get_text('\((.+?)\)', $full);
