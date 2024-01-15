@@ -64,6 +64,18 @@ print $eb->sluz->fetch("tpls/edit_zone.stpl");
 
 ////////////////////////////////////////////////////////
 
+function record_count(array $obj) {
+	$keys = array_keys($obj);
+
+	$total = 0;
+	foreach ($keys as $key) {
+		$count  = count($obj[$key]);
+		$total += $count;
+	}
+
+	return $total;
+}
+
 function handle_action($action, $rec_type, $rec_num) {
 	global $eb;
 	global $dom_info;
