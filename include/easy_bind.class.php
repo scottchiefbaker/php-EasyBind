@@ -231,19 +231,26 @@ class easy_bind {
 		foreach ($lines as $l) {
 			// If it has IN/MX it's a valid entry
 			if (preg_match("/\sIN\s|\sMX\s/", $l)) {
-				$parts = preg_split("/\s+/", $l, 5);
-				$is_mx = preg_match("/\sIN\s+MX\s/", $l);
+				$is_mx  = preg_match("/\sIN\s+MX\s/", $l);
+				$is_txt = preg_match("/\sIN\s+TXT\s/", $l);
 
-				if (count($parts) == 5) {
+				// TXT records are always four parts otherwise we might
+				// accidentally split on \s in the value
+				if ($is_txt) {
+					$parts = preg_split("/\s+/", $l, 4);
+				} else {
+					$parts = preg_split("/\s+/", $l, 5);
+				}
+
+				if ($is_mx) {
+					$key  = $parts[3] ?? "";
+					$type = $parts[2] ?? "";
+					$val  = $parts[4] ?? "";
+				} elseif (count($parts) == 5) {
 					$key  = $parts[0] ?? "";
 					$type = $parts[3] ?? "";
 					$val  = $parts[4] ?? "";
 
-					if ($is_mx) {
-						$key  = $parts[3] ?? "";
-						$type = $parts[2] ?? "";
-						$val  = $parts[4] ?? "";
-					}
 				} elseif (count($parts) == 4) {
 					$key  = $parts[0] ?? "";
 					$type = $parts[2] ?? "";
