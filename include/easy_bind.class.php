@@ -180,7 +180,7 @@ class easy_bind {
 		// We do this first clean up to get rid of the comments
 		foreach ($lines as &$line) {
 			$line = rtrim($line);
-			$line = preg_replace("/;.+/", "", $line);
+			$line = preg_replace("/;.*/", "", $line);
 		}
 
 		$ret = [];
