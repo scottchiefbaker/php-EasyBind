@@ -270,6 +270,8 @@ class easy_bind {
 			$line_count++;
 		}
 
+		ksort($ret['records']);
+
 		$ret['symlink'] = "";
 		if (is_link($file)) {
 			$ret['symlink'] = realpath($file);
