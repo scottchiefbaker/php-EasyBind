@@ -501,10 +501,10 @@ class easy_bind {
 		$real_file = $info['file'] ?? '';
 		$ret       = 0;
 
-		$ok = $this->verify_zone_file($zone_name, $scratch_file, $err_str);
+		$ok = $this->verify_zone_file($zone_name, $scratch_file, $err_str, $cmd_str);
 
 		if (!$ok) {
-			$this->error_out("<p>Error publishing zone</p><p><pre>$err_str</pre></p>", 49294);
+			$this->error_out("<p>Error publishing zone:</p><p><pre>$err_str</pre><pre style=\"color: black; font-weight: bold;\">Command: $cmd_str</pre></p>", 49294);
 		}
 
 		if ($real_file && $scratch_file) {
@@ -571,9 +571,11 @@ class easy_bind {
 	}
 
 	// Pass in an err_str with your data to return any potential errors
-	function verify_zone_file($zone_name, $file_name, &$error_str = '') {
+	function verify_zone_file($zone_name, $file_name, &$error_str = '', &$cmd_str = '') {
 		$cmd = "/usr/sbin/named-checkzone $zone_name $file_name";
 		exec($cmd, $out, $exit);
+
+		$cmd_str = $cmd;
 
 		$error_str = join("\n", $out);
 
