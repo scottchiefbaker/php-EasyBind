@@ -9,6 +9,10 @@
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 
+		<style>
+			.zone_item:nth-child(even) { background: #ededed; }
+		</style>
+
 	</head>
 	<body class="container-lg">
 		{if $warning_msg}
