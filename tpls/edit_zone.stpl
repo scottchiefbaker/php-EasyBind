@@ -102,13 +102,13 @@
 					</div>
 
 
-					<div class="mt-1" style="width: 25em;">
+					<div class="mt-1 w-50 record_key">
 						{$key}
 					</div>
-					<div class="mt-1" style="width: 10em;">
+					<div class="mt-1 record_type" style="width: 10em;">
 						{$type}
 					</div>
-					<div class="mt-1 w-100">
+					<div class="mt-1 record_value w-50">
 						{$val}
 					</div>
 				</div>
