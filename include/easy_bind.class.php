@@ -182,7 +182,9 @@ class easy_bind {
 			$line = rtrim($line);
 
 			// Remove any comments
-			$line = preg_replace("/^\s*;.*/", "", $line);
+			if (!preg_match("/\sIN\s+TXT\s/", $line)) {
+				$line = preg_replace("/;.*/", "", $line);
+			}
 		}
 
 		$ret = [];
