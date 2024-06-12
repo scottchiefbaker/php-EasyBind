@@ -113,7 +113,6 @@ function handle_action($action, $rec_type, $rec_num) {
 		if (!$ok) {
 			$eb->error_out("Unable to publish zone file", 57294);
 		} else {
-			$ok = unlink($scratch_file);
 			header("Location: ?domain=$domain");
 			exit(7);
 		}
