@@ -180,7 +180,9 @@ class easy_bind {
 		// We do this first clean up to get rid of the comments
 		foreach ($lines as &$line) {
 			$line = rtrim($line);
-			$line = preg_replace("/;.*/", "", $line);
+
+			// Remove any comments
+			$line = preg_replace("/^\s*;.*/", "", $line);
 		}
 
 		$ret = [];
@@ -510,6 +512,7 @@ class easy_bind {
 		if ($real_file && $scratch_file) {
 			if (!is_writable($real_file)) {
 				$this->error_out("Unable to write to <code>$real_file</code>", 45952);
+				exit;
 			}
 
 			$ok = copy($scratch_file, $real_file);
