@@ -169,6 +169,39 @@ class easy_bind {
 		return $ret;
 	}
 
+	function hide_semicolons($m) {
+		$str = $m[1];
+		$ret = str_replace(";", chr(0), $str);
+
+		return $ret;
+	}
+
+	function show_semicolons($m) {
+		$str = $m[1];
+		$ret = str_replace(chr(0), ";", $str);
+
+		return $ret;
+	}
+
+	function remove_comments($str) {
+		// Logic: Anything after a semi colon is a comment, so we remove it.
+		// BUT! Semi-colons are allowed inside of quoted strings like TXT records
+		//
+		// @	IN	TXT		"Foo;Bar;Baz"
+		//
+		// We change all the `;` inside of quotes to \0, remove all comments, and
+		// then restore the `;` in the final string
+
+		// Hide the semi-colons in quotes
+		$str = preg_replace_callback("/(\".+?\")/", [$this, "hide_semicolons"], $str);
+		// Remove all comments
+		$str = preg_replace("/;.*/", "", $str);
+		// Restore the semi-colors in the final string
+		$str = preg_replace_callback("/(\".+?\")/", [$this, "show_semicolons"], $str);
+
+		return $str;
+	}
+
 	// Parse a zone file in to hash
 	function parse_zone_file($file) {
 		if (!is_readable($file)) {
