@@ -214,10 +214,8 @@ class easy_bind {
 		foreach ($lines as &$line) {
 			$line = rtrim($line);
 
-			// Remove any comments
-			if (!preg_match("/\sIN\s+TXT\s/", $line)) {
-				$line = preg_replace("/;.*/", "", $line);
-			}
+			// Remove any comment strings from this line
+			$line = $this->remove_comments($line);
 		}
 
 		$ret = [];
